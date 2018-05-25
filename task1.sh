@@ -18,11 +18,11 @@ do
 	echo "prof$i:prof$i" | sudo chpasswd
 	sudo su prof$i -c 'mkdir ~/Teaching_material'
 	sudo su prof$i -c "chmod -R 700 /home/prof$i"
-	sudo su prof$i -c "setfacl -m "u:hod:rwx" /home/prof$i"
-
+	sudo su prof$i -c "setfacl -Rm "u:hod:rwX" /home/prof$i"
+	sudo su prof$i -c "setfacl -Rm "u:yourusername:rwX" /home/prof$i"
 done
 
-for ((i=1;i<51;i++))
+for ((i=1;i<3;i++))
 do 
 	sudo useradd -m -d /home/student$i -g students student$i
 	echo "student$i:student$i" | sudo chpasswd
@@ -30,7 +30,9 @@ do
 	sudo su student$i -c 'mkdir ~/Homework/prof1_work'
 	sudo su student$i -c 'mkdir ~/Homework/prof2_work'
 	sudo su student$i -c "chmod -R 707 /home/student$i"
-	sudo su student$i -c "setfacl -m "u:hod:rwx" /home/student$i"
+	sudo su student$i -c "setfacl -Rm "u:hod:rwX" /home/student$i"
+	sudo su student$i -c "setfacl -Rm "u:yourusername:rwX" /home/prof$i"
+
 done
 
 for ((i=1;i<3;i++))
@@ -43,7 +45,7 @@ done
 
 for ((i=1;i<3;i++))
 do
-	for((j=1;j<51;j++))
+	for((j=1;j<3;j++))
 	do
 		sudo su prof$i -c "shuf -zen5 /home/prof$i/Teaching_material/* | xargs -0 cp -t /home/student$j/Homework/prof"$i"_work"
 	done
